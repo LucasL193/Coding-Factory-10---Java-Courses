@@ -1,0 +1,32 @@
+package gr.aueb.cf.ch3;
+
+import java.util.Scanner;
+
+/**
+ * Εναλακτικά της do-while με while (true)
+ * και break
+ */
+
+public class DoMenu2App {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int choice = 0;
+
+        while(true){
+            System.out.println("Παρακαλώ επιλέξτε μία από τις παρακάτω εντολές");
+            System.out.println("1. Εισαγωγή προιόντος");
+            System.out.println("2. Ενημέρωση προιόντος");
+            System.out.println("3. Διαγραφή προιόντος");
+            System.out.println("4. Αναζήτηση προιόντος");
+            System.out.println("5. Έξοδος");
+            choice = scanner.nextInt();
+
+            if (choice == 5){
+                break;
+            }
+        }
+
+        System.out.println("Ευχαριστούμε για την επιλογή της εφαρμογής μας.");
+    }
+
+}
