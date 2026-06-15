@@ -66,14 +66,14 @@ public class Main {
 
                         accountController.withdraw(iban, withdrawAmount);
                         System.out.println("\nΕπιτυχής Ανάληψη");
-                        System.out.println("Ποσό κατάθεσης: " + withdrawAmount + ", Νέο Υπόλοιπο: ");
+                        System.out.println("Ποσό ανάληψης: " + withdrawAmount + ", Νέο Υπόλοιπο: ");
                         //+ accountControleer.getBalance();
                     }
                     case "5" -> {
                         System.out.println("Παρακαλώ εισάγετε το IBAN: ");
                         iban = scanner.nextLine().trim();
 
-                        balance = accountController.getBalance();
+                        balance = accountController.getBalance(iban);
 
                         System.out.println("\nΥπόλοιπο: " + balance);
 
