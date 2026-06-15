@@ -11,25 +11,70 @@ import java.util.List;
 public class AccountController {
 
     // dummy
-
-    private final List<Account> accounts = new ArrayList<>();
+    //private final List<Account> accounts = new ArrayList<>();
 
     public AccountReadOnlyDTO createNewAccount(String iban, BigDecimal balance) {
         // Data binding
-        AccountInsertDTO insertDTO = new AccountInsertDTO(iban, balance);
+        //AccountInsertDTO insertDTO = new AccountInsertDTO(iban, balance);
         AccountReadOnlyDTO readOnlyDTO;
 
-        // validation
+        // 1. Validation
 
-        // Dummy
-        String dtoIban = insertDTO.iban();
-        BigDecimal dtoBalance = insertDTO.balance();
+        // 2. Service Call
+        //readOnlyDTO = accountService.createAccount(insertDTO);
 
-        // Mapping
-        Account account = new Account(dtoIban, dtoBalance);
-        accounts.add(account); // mapping
-
-        readOnlyDTO = new AccountReadOnlyDTO(account.getIban(), account.getBalance());
+        // Dummy Data
+        readOnlyDTO = new AccountReadOnlyDTO(iban, balance);
         return readOnlyDTO;
+    }
+
+    public void deposit(String iban, BigDecimal amount) {
+
+        // 1. Validation
+
+        // Dummy Data
+        if (iban.equals("GR12345")) {
+            throw new IllegalArgumentException("Invalid IBAN");
+        }
+
+    }
+
+    public void withdraw(String iban, BigDecimal amount) {
+
+        // 1. Validation
+
+        // Dummy Data
+        if (iban.equals("GR12345")) {
+            throw new IllegalArgumentException("Account with IBAN " + iban + " does not exist");
+        }
+
+        // Service Call
+        // accountService.withdraw(iban, amount);
+    }
+
+    public BigDecimal getBalance(String iban) {
+
+
+        // Dummy Data
+        if (iban.equals("GR12345")) {
+            throw new IllegalArgumentException("Account with IBAN " + iban + "does not exist");
+        }
+
+        return new BigDecimal("1000");
+
+        // Service Call
+        //return accountService.getBalance(iban);
+    }
+
+    public List<AccountReadOnlyDTO> getAllAccounts() {
+
+        // Dummy Data
+        return List.of(new AccountReadOnlyDTO("GR12345", BigDecimal.valueOf(1000)),
+                new AccountReadOnlyDTO("GR12346", BigDecimal.valueOf(2000)),
+                new AccountReadOnlyDTO("GR12347", BigDecimal.valueOf(3000)),
+                new AccountReadOnlyDTO("GR12348", BigDecimal.valueOf(4000)));
+
+        // Service Call
+        //return accountService.getAllAccounts();
     }
 }
