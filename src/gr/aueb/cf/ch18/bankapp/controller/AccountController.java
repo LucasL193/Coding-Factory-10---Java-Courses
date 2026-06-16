@@ -1,30 +1,42 @@
 package gr.aueb.cf.ch18.bankapp.controller;
 
+import gr.aueb.cf.ch18.bankapp.core.exceptions.ValidationException;
 import gr.aueb.cf.ch18.bankapp.dto.AccountInsertDTO;
 import gr.aueb.cf.ch18.bankapp.dto.AccountReadOnlyDTO;
 import gr.aueb.cf.ch18.bankapp.model.Account;
+import gr.aueb.cf.ch18.bankapp.service.IAccountService;
+import gr.aueb.cf.ch18.bankapp.validation.Validator;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class AccountController {
+    private final IAccountService accountService;
 
-    // dummy
-    //private final List<Account> accounts = new ArrayList<>();
+    public AccountController(IAccountService accountService) {
+        this.accountService = accountService;
+    }
 
-    public AccountReadOnlyDTO createNewAccount(String iban, BigDecimal balance) {
+    public AccountReadOnlyDTO createNewAccount(String iban, BigDecimal balance)
+            throws ValidationException {
+
         // Data binding
-        //AccountInsertDTO insertDTO = new AccountInsertDTO(iban, balance);
+        AccountInsertDTO insertDTO = new AccountInsertDTO(iban, balance);
         AccountReadOnlyDTO readOnlyDTO;
 
-        // 1. Validation
+        // Validation
+        Map<String, String> errors = Validator.validateInsertDTO(insertDTO);
+        if (!errors.isEmpty()) {
+            throw new ValidationException(errors.toString());
+        }
 
         // 2. Service Call
-        //readOnlyDTO = accountService.createAccount(insertDTO);
+        readOnlyDTO = accountService.createNewAccount(insertDTO);
 
         // Dummy Data
-        readOnlyDTO = new AccountReadOnlyDTO(iban, balance);
+//        readOnlyDTO = new AccountReadOnlyDTO(iban, balance);
         return readOnlyDTO;
     }
 
@@ -34,9 +46,11 @@ public class AccountController {
 
         // Dummy Data
         if (iban.equals("GR12345")) {
-            throw new IllegalArgumentException("Invalid IBAN");
+            throw new IllegalArgumentException("Account with IBAN " + iban + " does not exist");
         }
 
+        // Service Call
+        // accountService.deposit(iban, amount);
     }
 
     public void withdraw(String iban, BigDecimal amount) {
@@ -54,10 +68,9 @@ public class AccountController {
 
     public BigDecimal getBalance(String iban) {
 
-
         // Dummy Data
         if (iban.equals("GR12345")) {
-            throw new IllegalArgumentException("Account with IBAN " + iban + "does not exist");
+            throw new IllegalArgumentException("Account with IBAN " + iban + " does not exist");
         }
 
         return new BigDecimal("1000");
